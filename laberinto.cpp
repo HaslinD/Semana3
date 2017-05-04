@@ -13,6 +13,9 @@ void freeMatrix(int, char**);
 //imprime matriz en la consola
 void prinMatrix(int, char**);
 
+//funcion para salir del laberinto
+void salirlaberinto(char**, int, int, int);
+
 int main (int argc, char* argv[]) {
   char letra;
   int size;
@@ -58,11 +61,49 @@ int main (int argc, char* argv[]) {
   //Imprimir Laberinto
   prinMatrix(size, matrix);
 
-  //TODO: llamar función SalirLaberinto
+  //TODO: llamar función SalirLaberinto 
 
+ 
   //Liberar Memoria
   freeMatrix(size, matrix);
   return 0;
+}
+
+void salirlaberinto(char** matrix, int size, int x, int y){
+	if (y == size - 1){
+		cout << "Ha encontrado la salida del laberinto! " << endl; 
+		return;
+	} else {
+		//moverse hacia arriba
+		if(x > 1){
+			if(matrix[x - 1][y] == '.'){
+				matrix[x][y] = 'R';
+				salirlaberinto(matrix, size, x - 1, y);
+			}//
+		}
+		//moverse hacia abajo
+		if(x < size - 1){
+			if(matrix[x+1][y] == '.'){
+				matrix[x][y] = 'R';
+                                salirlaberinto(matrix, size, x + 1, y);
+			}//
+		}
+		//moverse a la izquierda
+		if(y > 0){
+			if(matrix[x][y - 1] == '.'){
+				matrix[x][y] = 'R';
+                                salirlaberinto(matrix, size, x, y - 1);
+			}//
+		}
+		//moverse a la derecha
+		if(y < size - 1){
+			if(matrix[x][y + 1] == '.'){
+				matrix[x][y] = 'R';
+                                salirlaberinto(matrix, size, x, y + 1);
+			}//
+		}
+	}//if paso recursivo
+
 }
 
 void prinMatrix(int size, char** matrix){
@@ -92,3 +133,4 @@ void freeMatrix(int n, char** matrix){
 	
 	delete[] matrix;
 }
+
